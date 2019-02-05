@@ -16,3 +16,5 @@ That would print out the following:
   
  To exit from the program, assuming you just ran calc and didn't pass a file, you would type: 
  exit;
+
+YACC (Yet Another Compiler Compiler) is what handles the grammar for the language, and Lex handles the lexical analysis.
