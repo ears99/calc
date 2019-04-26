@@ -1,12 +1,13 @@
 %{ 
 void yyerror(char* s);
-	#include <stdio.h>  /*C declarations used in actions*/
+	#include <stdio.h>  /* C declarations used in actions */
 	#include <stdlib.h>
-	int symbols[52]; 	/*a-zA-Z*/
-	int symbolVal(char symbol); /*reads a value*/
-	void updateSymbolVal(char symbol, int value); /*updates a value*/
+	int symbols[52]; 	/* a-zA-Z */
+	int symbolVal(char symbol); /* reads a value */
+	void updateSymbolVal(char symbol, int value); /* updates a value */
 %}
 
+/* union declares modifiers for yylval */
 %union {int num; char id;}
 %start line
 %token print
@@ -18,17 +19,17 @@ void yyerror(char* s);
 
 %%
 
-/*Descriptions of expected inputs		corresponding actions in C*/
+/* Descriptions of expected inputs	|	corresponding actions in C */
 line : assignment ';'					{;}
-	| exit_command ';'					{exit(EXIT_SUCCESS);}
-	| print exp ';'						{printf("Printing %d\n", $2);}
+	| exit_command ';'				{exit(EXIT_SUCCESS);}
+	| print exp ';'					{printf("Printing %d\n", $2);}
 	| line assignment ';'				{;}
 	| line print exp ';'				{printf("Printing %d\n", $3);}
 	| line exit_command ';'				{exit(EXIT_SUCCESS);}
 	;
-assignment : identifier '=' exp 		{ updateSymbolVal($1, $3); }
+assignment : identifier '=' exp 			{ updateSymbolVal($1, $3); }
 	;
-exp : term								{$$ = $1;}
+exp : term							{$$ = $1;}
 	| exp '+' term						{$$ = $1 + $3;}
 	| exp '-' term						{$$ = $1 - $3;}
 	| exp '*' term						{$$ = $1 * $3;}
@@ -38,7 +39,7 @@ term : number							{$$ = $1;}
 	 | identifier						{$$ = symbolVal($1);}
 	 ;
 %%
-	/*C code*/
+	/* C code */
 int computeSymbolIndex(char token) {
 	int idx = -1;
 	if(islower(token)) {
@@ -49,13 +50,13 @@ int computeSymbolIndex(char token) {
 	return idx;
 }
 
-/*Returns the value of a given symbol*/
+/* Returns the value of a given symbol */
 int symbolVal(char symbol) {
 	int bucket = computeSymbolIndex(symbol);
 	return symbols[bucket];
 }
 
-/*Updates the value of a given symbol*/
+/* Updates the value of a given symbol */
 void updateSymbolVal(char symbol, int val) {
 	int bucket = computeSymbolIndex(symbol);
 	symbols[bucket] = val;
@@ -71,4 +72,6 @@ int main(void) {
 
 }
 
-void yyerror(char *s) { fprintf(stderr, "%s\n", s);  }
+void yyerror(char *s) { 
+fprintf(stderr, "%s\n", s);  
+}
