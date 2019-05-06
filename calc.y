@@ -8,13 +8,15 @@ void yyerror(char* s);
 %}
 
 /* union declares modifiers for yylval */
-%union {int num; char id;}
+%union {int num; char id; float fNum;}
 %start line
 %token print
 %token exit_command
 %token <num> number
+%token <fNum> fNumber
 %token <id> identifier
 %type <num> line exp term
+%type <fNum> term exp
 %type <id> assignment
 
 %%
@@ -34,9 +36,11 @@ exp : term							{$$ = $1;}
 	| exp '-' term						{$$ = $1 - $3;}
 	| exp '*' term						{$$ = $1 * $3;}
 	| exp '/' term						{$$ = $1 / $3;}
+	| exp '%' term						{$$ = $1 % $3;}
 	;
 term : number							{$$ = $1;}
 	 | identifier						{$$ = symbolVal($1);}
+	 | fNumber						{$$ = $1;}
 	 ;
 %%
 	/* C code */
