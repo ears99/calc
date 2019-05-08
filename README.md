@@ -23,6 +23,7 @@ This would be a floating point example:
 2. B = 2.5;
 3. C = A + B;
 4. print C;
+
 The output of that would be: 
 1. printing 3
 
