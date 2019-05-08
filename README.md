@@ -17,3 +17,13 @@ A sample calc program might look something like this:
 
 The output of that would be: 
 1. printing 47
+
+This would be a floating point example: 
+1. A = 1.0;
+2. B = 2.5;
+3. C = A + B;
+4. print C;
+The output of that would be: 
+1. printing 3
+
+Optionally, you could add an 'f' to the end of floating point numbers, just like in languages like C and C++ - both are accepted.
